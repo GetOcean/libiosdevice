@@ -1,0 +1,198 @@
+(TODO: replace fixed paths)
+
+Required libraries and tools (OSX and Linux):
+
+    libtool autotools autoconf gettext m4
+
+
+Then:
+
+    glibtoolize --force
+    aclocal
+    autoheader
+    automake --force-missing --add-missing
+    autoconf
+    ./configure
+    make
+
+
+
+For building icrackedtool, and dependant libraries on a mac with an arm-eabi toolchain:
+
+
+#configure libusb
+
+sh autogen.sh \
+    CC='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-gcc -B/Volumes/arm-eabi/arm-none-linux-gnueabi/bin' \
+    CXX='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-g++ -B/Volumes/arm-eabi/arm-none-linux-gnueabi/bin' \
+    AR=/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ar \
+    RANLIB=/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ranlib \
+    --host=armv6-linux \
+    --prefix=/Users/davidp/Projects/arm-eabi/usr/local
+
+
+# Configure libxml2
+
+./configure \
+    CC='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-gcc -B/Volumes/arm-eabi/arm-none-linux-gnueabi/bin' \
+    CXX='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-g++ -B/Volumes/arm-eabi/arm-none-linux-gnueabi/bin' \
+    AR=/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ar \
+    RANLIB=/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ranlib \
+    --host=armv6 \
+    --prefix=/Users/davidp/Projects/arm-eabi/usr/local
+
+
+
+# configure for libplist
+
+./autogen.sh \
+    CC='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-gcc -B/Volumes/arm-eabi/arm-none-linux-gnueabi/bin' \
+    CCLD='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ld' \
+    CXX='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-g++ -B/Volumes/arm-eabi/arm-none-linux-gnueabi/bin' \
+    AR=/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ar \
+    RANLIB=/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ranlib \
+    PYTHON=/usr/local/bin/python \
+    LDFLAGS="-L/Users/davidp/Projects/arm-eabi/usr/local/lib -L/usr/local/Cellar/python/2.7.6_1/Frameworks/Python.framework/Versions/2.7/lib" \
+    libxml2_CFLAGS='-I/Users/davidp/Projects/arm-eabi/usr/local/include/libxml2' \
+    libxml2_LIBS='-lxml2' \
+    --host=armv6 \
+    --prefix=/Users/davidp/Projects/arm-eabi/usr/local \
+    --without-cython
+
+
+
+# configuration for libusbmuxd
+
+export ac_cv_func_malloc_0_nonnull=yes
+export ac_cv_func_realloc_0_nonnull=yes
+
+sh autogen.sh \
+    CC='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-gcc -B/Volumes/arm-eabi/arm-none-linux-gnueabi/bin' \
+    CXX='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-g++ -B/Volumes/arm-eabi/arm-none-linux-gnueabi/bin' \
+    AR=/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ar \
+    RANLIB=/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ranlib \
+    LDFLAGS="-L/Users/davidp/Projects/arm-eabi/usr/local/lib -L/Volumes/arm-eabi/arm-none-linux-gnueabi/arm-none-linux-gnueabi/lib -lc" \
+    libplist_CFLAGS='-I/Users/davidp/Projects/arm-eabi/usr/local/include/libxml2 -I/Users/davidp/Projects/arm-eabi/usr/local/include' \
+    libplist_LIBS='-lplist' \
+    --host=armv6 \
+    --prefix=/Users/davidp/Projects/arm-eabi/usr/local
+
+
+
+# config for usbmuxd
+
+export libimobiledevice_CFLAGS='-I/Users/davidp/Projects/arm-eabi/usr/local/include/libxml2 -I/Users/davidp/Projects/arm-eabi/usr/local/include -L/Users/davidp/Projects/arm-eabi/usr/local/lib'
+export libimobiledevice_LIBS='-limobiledevice'
+
+export libusb_CFLAGS='-I/Users/davidp/Projects/arm-eabi/usr/local/include/libxml2 -I/Users/davidp/Projects/arm-eabi/usr/local/include/libusb -I/Users/davidp/Projects/arm-eabi/usr/local/include -L/Users/davidp/Projects/arm-eabi/usr/local/lib'
+export libusb_LIBS='-lusb-1.0'
+
+./autogen.sh \
+    CC='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-gcc -B/Volumes/arm-eabi/arm-none-linux-gnueabi/bin' \
+    CXX='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-g++ -B/Volumes/arm-eabi/arm-none-linux-gnueabi/bin' \
+    AR=/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ar \
+    RANLIB=/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ranlib \
+    LDFLAGS="-L/Users/davidp/Projects/arm-eabi/usr/local/lib -L/Volumes/arm-eabi/arm-none-linux-gnueabi/arm-none-linux-gnueabi/lib" \
+    LIBS="-lc" \
+    --host=armv6 \
+    --without-systemd \
+    --prefix=/Users/davidp/Projects/arm-eabi/usr/local
+
+
+
+# configuration for libimobiledevice
+
+export libplist_CFLAGS='-I/Users/davidp/Projects/arm-eabi/usr/local/include/libxml2 -I/Users/davidp/Projects/arm-eabi/usr/local/include -L/Users/davidp/Projects/arm-eabi/usr/local/lib'
+export libplist_LIBS='-lplist -lxml2'
+
+export libplistmm_CFLAGS='-I/Users/davidp/Projects/arm-eabi/usr/local/include/libxml2 -I/Users/davidp/Projects/arm-eabi/usr/local/include -L/Users/davidp/Projects/arm-eabi/usr/local/lib'
+export libplistmm_LIBS='-lplist'
+
+./autogen.sh \
+    CC='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-gcc -B/Volumes/arm-eabi/arm-none-linux-gnueabi/bin' \
+    CXX='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-g++ -B/Volumes/arm-eabi/arm-none-linux-gnueabi/bin' \
+    AR=/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ar \
+    RANLIB=/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ranlib \
+    CFLAGS='-mfloat-abi=softfp -march=armv6 -I/Users/davidp/Projects/arm-eabi/usr/local/include/libxml2 -I/Users/davidp/Projects/arm-eabi/usr/local/include -L/Users/davidp/Projects/arm-eabi/usr/local/lib/arm-linux-gnueabihf -L/Users/davidp/Projects/arm-eabi/usr/local/lib -lplist -lxml2 -lusbmuxd' \
+    LDFLAGS='-L/Users/davidp/Projects/arm-eabi/usr/local/lib/arm-linux-gnueabihf -L/Users/davidp/Projects/arm-eabi/usr/local/lib -lplist -lxml2 -lusbmuxd' \
+    --host=armv6 \
+    --prefix=/Users/davidp/Projects/arm-eabi/usr/local \
+    --without-cython \
+    --enable-debug-code
+
+
+
+#configure libcurl
+
+./configure \
+    CC='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-gcc -B/Volumes/arm-eabi/arm-none-linux-gnueabi/bin' \
+    CXX='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-g++ -B/Volumes/arm-eabi/arm-none-linux-gnueabi/bin' \
+    AR=/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ar \
+    RANLIB=/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ranlib \
+    CFLAGS='-mfloat-abi=softfp -march=armv6 -I/Users/davidp/Projects/arm-eabi/usr/local/include/libxml2 -I/Users/davidp/Projects/arm-eabi/usr/local/include' \
+    --host=armv6-linux \
+    --prefix=/Users/davidp/Projects/arm-eabi/usr/local \
+    --with-ssl \
+    --with-zlib
+
+
+# configuration for blueocean -- local
+
+export ac_cv_func_malloc_0_nonnull=yes
+export ac_cv_func_realloc_0_nonnull=yes
+
+export libplist_CFLAGS='-I/usr/local/include -I/usr/local/Cellar/libxml2/2.9.1/lib/include/libxml2 -L/usr/local/Cellar/libxml2/2.9.1/lib/'
+export libplist_LIBS='-lplist -lxml2 -limobiledevice'
+
+export libimobiledevice_CFLAGS='-I/usr/local/Cellar/libxml2/2.9.1/lib/include/libxml2 -L/usr/local/Cellar/libxml2/2.9.1/lib/'
+export libimobiledevice_LIBS='-lxml2 -limobiledevice'
+
+./configure \
+    CC='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-gcc -B/Volumes/arm-eabi/arm-none-linux-gnueabi/bin' \
+    CXX='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-g++ -B/Volumes/arm-eabi/arm-none-linux-gnueabi/bin' \
+    AR=/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ar \
+    RANLIB=/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ranlib \
+    CFLAGS='-mfloat-abi=softfp -march=armv6 -I/Users/davidp/Projects/arm-eabi/usr/local/include' \
+    CXXFLAGS='-mfloat-abi=softfp -march=armv6 -I/Users/davidp/Projects/arm-eabi/usr/local/include' \
+    LDFLAGS='-L/Users/davidp/Projects/arm-eabi/usr/local/lib' \
+    --host=armv6 \
+    --prefix=/Users/davidp/Projects/arm-eabi/usr/local
+
+
+
+
+
+
+
+# configuration for blueocean -- armv6
+
+
+export ac_cv_func_malloc_0_nonnull=yes
+export ac_cv_func_realloc_0_nonnull=yes
+
+export libplist_CFLAGS='-I/Users/davidp/Projects/arm-eabi/usr/local/include/libxml2 -I/Users/davidp/Projects/arm-eabi/usr/local/include -L/Users/davidp/Projects/arm-eabi/usr/local/lib'
+export libplist_LIBS='-lplist -lxml2'
+
+export libplistmm_CFLAGS='-I/Users/davidp/Projects/arm-eabi/usr/local/include/libxml2 -I/Users/davidp/Projects/arm-eabi/usr/local/include -L/Users/davidp/Projects/arm-eabi/usr/local/lib'
+export libplistmm_LIBS='-lplist'
+
+export libimobiledevice_CFLAGS='-I/Users/davidp/Projects/arm-eabi/usr/local/include/libxml2 -I/Users/davidp/Projects/arm-eabi/usr/local/include -L/Users/davidp/Projects/arm-eabi/usr/local/lib'
+export libimobiledevice_LIBS='-limobiledevice'
+
+export libimobiledevice_CFLAGS='-I/Users/davidp/Projects/arm-eabi/usr/local/include/libxml2 -I/Users/davidp/Projects/arm-eabi/usr/local/include -L/Users/davidp/Projects/arm-eabi/usr/local/lib'
+export libimobiledevice_LIBS='-limobiledevice'
+
+export libusb_CFLAGS='-I/Users/davidp/Projects/arm-eabi/usr/local/include/libxml2 -I/Users/davidp/Projects/arm-eabi/usr/local/include/libusb -I/Users/davidp/Projects/arm-eabi/usr/local/include -L/Users/davidp/Projects/arm-eabi/usr/local/lib'
+export libusb_LIBS='-lusb-1.0'
+
+./configure \
+    CC='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-gcc -B/Volumes/arm-eabi/arm-none-linux-gnueabi/bin' \
+    CXX='/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-g++ -B/Volumes/arm-eabi/arm-none-linux-gnueabi/bin' \
+    AR=/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ar \
+    RANLIB=/Volumes/arm-eabi/arm-none-linux-gnueabi/bin/arm-none-linux-gnueabi-ranlib \
+    CFLAGS='-DDEBUG=1 -mfloat-abi=softfp -march=armv6 -I/Users/davidp/Projects/arm-eabi/usr/local/include' \
+    CXXFLAGS='-mfloat-abi=softfp -march=armv6 -I/Users/davidp/Projects/arm-eabi/usr/local/include' \
+    LDFLAGS='-L/Users/davidp/Projects/arm-eabi/usr/local/lib' \
+    --host=armv6 \
+    --prefix=/Users/davidp/Projects/arm-eabi/usr/local
+
