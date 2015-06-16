@@ -29,7 +29,7 @@ extern "C" {
 #endif
 
 #include <plist/plist.h>
-#include <libirecovery.h>
+#include <irecv/libirecovery.h>
 
 #include "idevicerestore.h"
 
