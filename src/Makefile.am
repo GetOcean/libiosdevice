@@ -41,5 +41,4 @@ libiosdevice_la_SOURCES = \
 		idevicerestore/tss.c \
 		idevicerestore/tss.h \
 		irecv/libirecovery.c \
-		irecv/libirecovery.h \
-		jsoncpp/jsoncpp.cpp
+		irecv/libirecovery.h

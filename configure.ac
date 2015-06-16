@@ -4,7 +4,7 @@
 AC_PREREQ([2.69])
 AC_INIT(libiosdevice, 1.0.0, davidcpetrie@gmail.com)
 AM_INIT_AUTOMAKE([dist-bzip2 no-dist-gzip subdir-objects])
-AC_OUTPUT(Makefile src/Makefile include/Makefile)
+AC_OUTPUT(Makefile src/Makefile)
 AC_CONFIG_MACRO_DIR([m4])
 
 dnl libtool versioning
