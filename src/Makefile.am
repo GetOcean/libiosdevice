@@ -42,3 +42,27 @@ libiosdevice_la_SOURCES = \
 		idevicerestore/tss.h \
 		irecv/libirecovery.c \
 		irecv/libirecovery.h
+
+idevicerestoredir = $(includedir)/idevicerestore
+irecvdir = $(includedir)/irecv
+idevicerestore_HEADERS = \
+		idevicerestore/asr.h \
+		idevicerestore/common.h \
+		idevicerestore/dfu.h \
+		idevicerestore/download.h \
+		idevicerestore/fls.h \
+		idevicerestore/idevicerestore.h \
+		idevicerestore/img3.h \
+		idevicerestore/img4.h \
+		idevicerestore/ipsw.h \
+		idevicerestore/limera1n.h \
+		idevicerestore/limera1n_payload.h \
+		idevicerestore/locking.h \
+		idevicerestore/mbn.h \
+		idevicerestore/normal.h \
+		idevicerestore/recovery.h \
+		idevicerestore/restore.h \
+		idevicerestore/tss.h
+
+irecv_HEADERS = \
+		irecv/libirecovery.h

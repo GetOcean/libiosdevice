@@ -15,6 +15,7 @@
 
 
 
+
 am__is_gnu_make = test -n '$(MAKEFILE_LIST)' && test -n '$(MAKELEVEL)'
 am__make_running_with_option = \
   case $${target_option-} in \
@@ -80,7 +81,8 @@ build_triplet = x86_64-unknown-linux-gnu
 host_triplet = x86_64-unknown-linux-gnu
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(top_srcdir)/depcomp
+	$(top_srcdir)/depcomp $(idevicerestore_HEADERS) \
+	$(irecv_HEADERS)
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
@@ -118,7 +120,8 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(libdir)"
+am__installdirs = "$(DESTDIR)$(libdir)" \
+	"$(DESTDIR)$(idevicerestoredir)" "$(DESTDIR)$(irecvdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libiosdevice_la_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
@@ -181,6 +184,7 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+HEADERS = $(idevicerestore_HEADERS) $(irecv_HEADERS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -362,6 +366,30 @@ libiosdevice_la_SOURCES = \
 		irecv/libirecovery.c \
 		irecv/libirecovery.h
 
+idevicerestoredir = $(includedir)/idevicerestore
+irecvdir = $(includedir)/irecv
+idevicerestore_HEADERS = \
+		idevicerestore/asr.h \
+		idevicerestore/common.h \
+		idevicerestore/dfu.h \
+		idevicerestore/download.h \
+		idevicerestore/fls.h \
+		idevicerestore/idevicerestore.h \
+		idevicerestore/img3.h \
+		idevicerestore/img4.h \
+		idevicerestore/ipsw.h \
+		idevicerestore/limera1n.h \
+		idevicerestore/limera1n_payload.h \
+		idevicerestore/locking.h \
+		idevicerestore/mbn.h \
+		idevicerestore/normal.h \
+		idevicerestore/recovery.h \
+		idevicerestore/restore.h \
+		idevicerestore/tss.h
+
+irecv_HEADERS = \
+		irecv/libirecovery.h
+
 all: all-am
 
 .SUFFIXES:
@@ -375,9 +403,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/Makefile
+	  $(AUTOMAKE) --foreign src/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -540,6 +568,48 @@ clean-libtool:
 	-rm -rf .libs _libs
 	-rm -rf idevicerestore/.libs idevicerestore/_libs
 	-rm -rf irecv/.libs irecv/_libs
+install-idevicerestoreHEADERS: $(idevicerestore_HEADERS)
+	@$(NORMAL_INSTALL)
+	@list='$(idevicerestore_HEADERS)'; test -n "$(idevicerestoredir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(idevicerestoredir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(idevicerestoredir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(idevicerestoredir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(idevicerestoredir)" || exit $$?; \
+	done
+
+uninstall-idevicerestoreHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(idevicerestore_HEADERS)'; test -n "$(idevicerestoredir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(idevicerestoredir)'; $(am__uninstall_files_from_dir)
+install-irecvHEADERS: $(irecv_HEADERS)
+	@$(NORMAL_INSTALL)
+	@list='$(irecv_HEADERS)'; test -n "$(irecvdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(irecvdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(irecvdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(irecvdir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(irecvdir)" || exit $$?; \
+	done
+
+uninstall-irecvHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(irecv_HEADERS)'; test -n "$(irecvdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(irecvdir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -625,9 +695,9 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES)
+all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(idevicerestoredir)" "$(DESTDIR)$(irecvdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -687,7 +757,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-idevicerestoreHEADERS install-irecvHEADERS
 
 install-dvi: install-dvi-am
 
@@ -733,7 +803,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES
+uninstall-am: uninstall-idevicerestoreHEADERS uninstall-irecvHEADERS \
+	uninstall-libLTLIBRARIES
 
 .MAKE: install-am install-strip
 
@@ -743,13 +814,16 @@ uninstall-am: uninstall-libLTLIBRARIES
 	distclean-libtool distclean-tags distdir dvi dvi-am html \
 	html-am info info-am install install-am install-data \
 	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-libLTLIBRARIES install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-libLTLIBRARIES
+	install-exec-am install-html install-html-am \
+	install-idevicerestoreHEADERS install-info install-info-am \
+	install-irecvHEADERS install-libLTLIBRARIES install-man \
+	install-pdf install-pdf-am install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am tags tags-am uninstall uninstall-am \
+	uninstall-idevicerestoreHEADERS uninstall-irecvHEADERS \
+	uninstall-libLTLIBRARIES
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
