@@ -5,7 +5,7 @@ AM_CFLAGS = $(CFLAGS) -DIDEVICERESTORE_NOMAIN=1 -D_WEBSOCKETPP_CPP11_STL_ -DHAVE
 AM_LDFLAGS = $(libusbmuxd_CFLAGS) $(libxml2_CFLAGS) $(libplist_CFLAGS) $(libzip_CFLAGS) $(libz_CFLAGS) $(openssl_CFLAGS) $(libusb_CFLAGS) $(libpthread_CFLAGS) $(libcrypto_CFLAGS) $(libcurl_CFLAGS) $(libimobiledevice_CFLAGS)
 
 lib_LTLIBRARIES = libiosdevice.la
-libiosdevice_la_LDFLAGS = $(AM_LDFLAGS) -lusbmuxd -lboost_system -limobiledevice -lusb-1.0 -lcurl -lstdc++ -static -static-libstdc++
+libiosdevice_la_LDFLAGS = $(AM_LDFLAGS) -lz -lzip -lusbmuxd -lboost_system -limobiledevice -lusb-1.0 -lcurl -lstdc++ -static -static-libstdc++
 libiosdevice_la_SOURCES = \
 		idevicerestore/asr.c \
 		idevicerestore/asr.h \
