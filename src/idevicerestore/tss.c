@@ -184,6 +184,15 @@ int tss_parameters_add_from_manifest(plist_t parameters, plist_t build_identity)
 	}
 	node = NULL;
 
+	/* BbFDRSecurityKeyHash */
+	node = plist_dict_get_item(build_identity, "BbFDRSecurityKeyHash");
+	if (node && plist_get_node_type(node) == PLIST_DATA) {
+		plist_dict_set_item(parameters, "BbFDRSecurityKeyHash", plist_copy(node));
+	} else {
+		debug("NOTE: Unable to find BbFDRSecurityKeyHash node\n");
+	}
+	node = NULL;
+
 	/* BbSkeyId - Used by XMM 6180/GSM */
 	node = plist_dict_get_item(build_identity, "BbSkeyId");
 	if (node && plist_get_node_type(node) == PLIST_DATA) {
@@ -211,15 +220,6 @@ int tss_request_add_ap_img4_tags(plist_t request, plist_t parameters) {
 		error("ERROR: Missing required AP parameters\n");
 		return -1;
 	}
-
-	/* ApECID */
-	node = plist_dict_get_item(parameters, "ApECID");
-	if (!node || plist_get_node_type(node) != PLIST_UINT) {
-		error("ERROR: Unable to find required ApECID in parameters\n");
-		return -1;
-	}
-	plist_dict_set_item(request, "ApECID", plist_copy(node));
-	node = NULL;
 
 	/* ApNonce */
 	node = plist_dict_get_item(parameters, "ApNonce");
@@ -291,15 +291,6 @@ int tss_request_add_ap_img3_tags(plist_t request, plist_t parameters) {
 	/* @APTicket */
 	plist_dict_set_item(request, "@APTicket", plist_new_bool(1));
 
-	/* ApECID */
-	node = plist_dict_get_item(parameters, "ApECID");
-	if (!node || plist_get_node_type(node) != PLIST_UINT) {
-		error("ERROR: Unable to find required ApECID in parameters\n");
-		return -1;
-	}
-	plist_dict_set_item(request, "ApECID", plist_copy(node));
-	node = NULL;
-
 	/* ApBoardID */
 	node = plist_dict_get_item(request, "ApBoardID");
 	if (!node || plist_get_node_type(node) != PLIST_UINT) {
@@ -338,6 +329,15 @@ int tss_request_add_ap_img3_tags(plist_t request, plist_t parameters) {
 
 int tss_request_add_common_tags(plist_t request, plist_t parameters, plist_t overrides) {
 	plist_t node = NULL;
+
+	/* ApECID */
+	node = plist_dict_get_item(parameters, "ApECID");
+	if (!node || plist_get_node_type(node) != PLIST_UINT) {
+		error("ERROR: Unable to find required ApECID in parameters\n");
+		return -1;
+	}
+	plist_dict_set_item(request, "ApECID", plist_copy(node));
+	node = NULL;
 
 	/* UniqueBuildID */
 	node = plist_dict_get_item(parameters, "UniqueBuildID");
@@ -499,6 +499,13 @@ int tss_request_add_ap_tags(plist_t request, plist_t parameters, plist_t overrid
 			tss_entry_apply_restore_request_rules(tss_entry, parameters, rules);
 		}
 
+		/* Make sure we have a Digest key even if empty */
+		plist_t node = plist_access_path(manifest_entry, 1, "Digest");
+		if (!node) {
+			debug("DEBUG: No Digest data, using empty value for entry %s\n", key);
+			plist_dict_set_item(tss_entry, "Digest", plist_new_data(NULL, 0));
+		}
+
 		/* finally add entry to request */
 		plist_dict_set_item(request, key, tss_entry);
 
@@ -551,6 +558,13 @@ int tss_request_add_baseband_tags(plist_t request, plist_t parameters, plist_t o
 	}
 	node = NULL;
 
+	/* BbFDRSecurityKeyHash */
+	node = plist_dict_get_item(parameters, "BbFDRSecurityKeyHash");
+	if (node) {
+		plist_dict_set_item(request, "BbFDRSecurityKeyHash", plist_copy(node));
+	}
+	node = NULL;
+
 	/* BbSkeyId - Used by XMM 6180/GSM */
 	node = plist_dict_get_item(parameters, "BbSkeyId");
 	if (node) {
@@ -574,7 +588,11 @@ int tss_request_add_baseband_tags(plist_t request, plist_t parameters, plist_t o
 		error("ERROR: Unable to find required BbGoldCertId in parameters\n");
 		return -1;
 	}
-	plist_dict_set_item(request, "BbGoldCertId", plist_copy(node));
+	node = plist_copy(node);
+	uint64_t val;
+	plist_get_uint_val(node, &val);
+	plist_set_uint_val(node, (int32_t)val);
+	plist_dict_set_item(request, "BbGoldCertId", node);
 	node = NULL;
 
 	/* BbSNUM */
@@ -718,11 +736,14 @@ plist_t tss_request_send(plist_t tss_request, const char* server_url_string) {
 		} else if (status_code == 49) {
 			// server error (invalid bb data, e.g. BbSNUM?)
 			break;
-		} else if (status_code == 94) {
+		} else if (status_code == 69 || status_code == 94) {
 			// This device isn't eligible for the requested build.
 			break;
 		} else if (status_code == 100) {
 			// server error, most likely the request was malformed
+			break;
+		} else if (status_code == 126) {
+			// An internal error occured, most likely the request was malformed
 			break;
 		} else {
 			error("ERROR: tss_send_request: Unhandled status code %d\n", status_code);

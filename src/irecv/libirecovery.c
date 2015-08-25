@@ -86,7 +86,7 @@ struct irecv_client_private {
 #define BUFFER_SIZE 0x1000
 #define debug(...) if(libirecovery_debug) fprintf(stderr, __VA_ARGS__)
 
-static int libirecovery_debug = 0;
+static int libirecovery_debug = 1;
 #ifndef WIN32
 static libusb_context* libirecovery_context = NULL;
 #endif
@@ -735,9 +735,9 @@ IRECV_API int irecv_usb_bulk_transfer(irecv_client_t client,
 }
 
 IRECV_API irecv_error_t irecv_open_with_ecid(irecv_client_t* pclient, unsigned long long ecid) {
-	if(libirecovery_debug) {
+	//if(libirecovery_debug) {
 		irecv_set_debug_level(libirecovery_debug);
-	}
+	//}
 #ifndef WIN32
 	int i = 0;
 	struct libusb_device* usb_device = NULL;
@@ -825,9 +825,9 @@ IRECV_API irecv_error_t irecv_open_with_ecid(irecv_client_t* pclient, unsigned l
 
 				if ((client->mode != IRECV_K_DFU_MODE) && (client->mode != IRECV_K_WTF_MODE)) {
 					error = irecv_usb_set_interface(client, 0, 0);
-					if (client->mode > IRECV_K_RECOVERY_MODE_2) {
+					//if (client->mode > IRECV_K_RECOVERY_MODE_2) {
 						error = irecv_usb_set_interface(client, 1, 1);
-					}
+					//}
 				} else {
 					error = irecv_usb_set_interface(client, 0, 0);
 				}

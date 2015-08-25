@@ -30,6 +30,8 @@
 
 #include "common.h"
 
+#define MAX_PRINT_LEN 64*1024
+
 int idevicerestore_debug = 0;
 
 #define idevicerestore_err_buff_size 256
@@ -127,7 +129,7 @@ int write_file(const char* filename, const void* data, size_t size) {
 	debug("Writing data to %s\n", filename);
 	file = fopen(filename, "wb");
 	if (file == NULL) {
-		error("read_file: Unable to open file %s\n", filename);
+		error("write_file: Unable to open file %s\n", filename);
 		return -1;
 	}
 
@@ -158,8 +160,8 @@ int read_file(const char* filename, void** data, size_t* size) {
 		return -1;
 	}
 
-	fseek(file, 0, SEEK_END);
-	length = ftell(file);
+	fseeko(file, 0, SEEK_END);
+	length = ftello(file);
 	rewind(file);
 
 	buffer = (char*) malloc(length);
@@ -186,7 +188,10 @@ void debug_plist(plist_t plist) {
 	uint32_t size = 0;
 	char* data = NULL;
 	plist_to_xml(plist, &data, &size);
-	info("%s", data);
+	if (size <= MAX_PRINT_LEN)
+		info("%s:printing %i bytes plist:\n%s", __FILE__, size, data);
+	else
+		info("%s:supressed printing %i bytes plist...\n", __FILE__, size);
 	free(data);
 }
 
@@ -263,7 +268,7 @@ void idevicerestore_progress(struct idevicerestore_client_t* client, int step, d
 		client->progress_cb(step, progress, client->progress_cb_data);
 	} else {
 		// we don't want to be too verbose in regular idevicerestore.
-		if ((step == RESTORE_STEP_UPLOAD_FS) || (step == RESTORE_STEP_FLASH_FS) || (step == RESTORE_STEP_FLASH_NOR)) {
+		if ((step == RESTORE_STEP_UPLOAD_FS) || (step == RESTORE_STEP_FLASH_FS) || (step == RESTORE_STEP_FLASH_FW)) {
 			print_progress_bar(100.0f * progress);
 		}
 	}
