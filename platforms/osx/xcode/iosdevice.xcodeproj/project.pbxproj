@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3505502D1BC7773F00EC66CB /* libssl.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3505502C1BC7773F00EC66CB /* libssl.tbd */; };
+		3505502F1BC7784B00EC66CB /* libcurl.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3505502E1BC7784B00EC66CB /* libcurl.tbd */; };
 		352E2A1C1AA2923500C1E439 /* asr.c in Sources */ = {isa = PBXBuildFile; fileRef = 352E29F61AA2923500C1E439 /* asr.c */; };
 		352E2A1D1AA2923500C1E439 /* asr.h in Headers */ = {isa = PBXBuildFile; fileRef = 352E29F71AA2923500C1E439 /* asr.h */; };
 		352E2A1E1AA2923500C1E439 /* common.c in Sources */ = {isa = PBXBuildFile; fileRef = 352E29F81AA2923500C1E439 /* common.c */; };
@@ -58,8 +60,6 @@
 		E497A66718C501EC00568C1C /* icracked.h in Headers */ = {isa = PBXBuildFile; fileRef = E497A66618C501EC00568C1C /* icracked.h */; };
 		E497A67F18C54B7800568C1C /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E497A67E18C54B7800568C1C /* libcurl.dylib */; };
 		E497A68F18C65CBD00568C1C /* server_info.h in Headers */ = {isa = PBXBuildFile; fileRef = E497A68E18C65CBD00568C1C /* server_info.h */; };
-		E497A69B18C6A1A000568C1C /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E497A69A18C6A1A000568C1C /* libcrypto.dylib */; };
-		E497A69D18C6A1AB00568C1C /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E497A69C18C6A1AB00568C1C /* libssl.dylib */; };
 		E497A69F18C6A1B400568C1C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E497A69E18C6A1B400568C1C /* libz.dylib */; };
 		E497A6A118C6A1C300568C1C /* libpthread.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E497A6A018C6A1C300568C1C /* libpthread.dylib */; };
 		E497A6A318C6A41F00568C1C /* wsserver.h in Headers */ = {isa = PBXBuildFile; fileRef = E497A6A218C6A41F00568C1C /* wsserver.h */; };
@@ -72,6 +72,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3505502C1BC7773F00EC66CB /* libssl.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libssl.tbd; path = usr/lib/libssl.tbd; sourceTree = SDKROOT; };
+		3505502E1BC7784B00EC66CB /* libcurl.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcurl.tbd; path = usr/lib/libcurl.tbd; sourceTree = SDKROOT; };
 		352E29F61AA2923500C1E439 /* asr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = asr.c; sourceTree = "<group>"; };
 		352E29F71AA2923500C1E439 /* asr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asr.h; sourceTree = "<group>"; };
 		352E29F81AA2923500C1E439 /* common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = common.c; sourceTree = "<group>"; };
@@ -123,8 +125,6 @@
 		E497A66618C501EC00568C1C /* icracked.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = icracked.h; sourceTree = "<group>"; };
 		E497A67E18C54B7800568C1C /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = usr/lib/libcurl.dylib; sourceTree = SDKROOT; };
 		E497A68E18C65CBD00568C1C /* server_info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = server_info.h; sourceTree = "<group>"; };
-		E497A69A18C6A1A000568C1C /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
-		E497A69C18C6A1AB00568C1C /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = usr/lib/libssl.dylib; sourceTree = SDKROOT; };
 		E497A69E18C6A1B400568C1C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		E497A6A018C6A1C300568C1C /* libpthread.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpthread.dylib; path = usr/lib/libpthread.dylib; sourceTree = SDKROOT; };
 		E497A6A218C6A41F00568C1C /* wsserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wsserver.h; sourceTree = "<group>"; };
@@ -143,6 +143,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3505502F1BC7784B00EC66CB /* libcurl.tbd in Frameworks */,
+				3505502D1BC7773F00EC66CB /* libssl.tbd in Frameworks */,
 				7D176DBE193D5A2E008C3412 /* libplist.a in Frameworks */,
 				7D176DC0193D5A32008C3412 /* libusbmuxd.a in Frameworks */,
 				7D176DC1193D5A34008C3412 /* libxml2.a in Frameworks */,
@@ -155,8 +157,6 @@
 				7D176DC4193D5A4D008C3412 /* libboost_system.a in Frameworks */,
 				E497A6A118C6A1C300568C1C /* libpthread.dylib in Frameworks */,
 				E497A69F18C6A1B400568C1C /* libz.dylib in Frameworks */,
-				E497A69D18C6A1AB00568C1C /* libssl.dylib in Frameworks */,
-				E497A69B18C6A1A000568C1C /* libcrypto.dylib in Frameworks */,
 				E497A67F18C54B7800568C1C /* libcurl.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -227,6 +227,8 @@
 		E4403B1318C10C7200EEF019 = {
 			isa = PBXGroup;
 			children = (
+				3505502E1BC7784B00EC66CB /* libcurl.tbd */,
+				3505502C1BC7773F00EC66CB /* libssl.tbd */,
 				352E29F41AA2923500C1E439 /* src */,
 				7D0F7BA619F07A1C0031A8EF /* libimobiledevice.a */,
 				7D176DB2193D58E6008C3412 /* libplist.a */,
@@ -240,8 +242,6 @@
 				E497A6AC18C6A9B100568C1C /* libboost_system.a */,
 				E497A6A018C6A1C300568C1C /* libpthread.dylib */,
 				E497A69E18C6A1B400568C1C /* libz.dylib */,
-				E497A69C18C6A1AB00568C1C /* libssl.dylib */,
-				E497A69A18C6A1A000568C1C /* libcrypto.dylib */,
 				E497A67E18C54B7800568C1C /* libcurl.dylib */,
 				E4C2C4B518D77C9F00E33D1D /* lib */,
 				E47E50BF18C11E81008FAF69 /* include */,
@@ -359,7 +359,7 @@
 		E4403B1418C10C7200EEF019 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "iCracked Inc.";
 			};
 			buildConfigurationList = E4403B1718C10C7200EEF019 /* Build configuration list for PBXProject "iosdevice" */;
@@ -422,6 +422,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -455,6 +456,10 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I/usr/include",
+				);
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -504,6 +509,10 @@
 					/usr/local/lib/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I/usr/include",
+				);
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -517,11 +526,22 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/local/include,
+					"/usr/local/include/libusb-1.0/",
+					../../../include/,
+					../../../lib/,
+					../../../src/,
+					/usr/include,
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/davidp/Projects/libicracked/lib/mac64,
 				);
 				PRODUCT_NAME = iosdevice;
+				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include;
 			};
 			name = Debug;
 		};
@@ -530,11 +550,22 @@
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/local/include,
+					"/usr/local/include/libusb-1.0/",
+					../../../include/,
+					../../../lib/,
+					../../../src/,
+					/usr/include,
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/davidp/Projects/libicracked/lib/mac64,
 				);
 				PRODUCT_NAME = iosdevice;
+				PUBLIC_HEADERS_FOLDER_PATH = /usr/local/include;
 			};
 			name = Release;
 		};
